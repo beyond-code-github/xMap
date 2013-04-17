@@ -39,6 +39,9 @@
     <Reference Include="EntityFramework.SqlServerCompact">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.0.0-alpha3\lib\net40\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\packages\Machine.Specifications.0.5.12\lib\net40\Machine.Specifications.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,11 +60,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="SqlClassMappings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xMap.Tests\xMap.Tests.csproj">
+      <Project>{3361E4E8-41C4-4130-A840-91299D4BEB79}</Project>
+      <Name>xMap.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xMap\xMap.csproj">
+      <Project>{5df241f1-0fcf-4b52-8ff7-a5d66d605ea7}</Project>
+      <Name>xMap</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

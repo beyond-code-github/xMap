@@ -40,10 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expressions\AssignmentVisitor.cs" />
-    <Compile Include="Exceptions\TypeKeyNotFoundException.cs" />
     <Compile Include="Expressions\ExpressionComposer.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
-    <Compile Include="Generators\KeyExpressionGenerator.cs" />
     <Compile Include="xMapPartial.cs" />
     <Compile Include="xMapping.cs" />
     <Compile Include="xMap.cs" />
@@ -52,7 +50,10 @@
     <Compile Include="Expressions\ParameterVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Generators\QueryGenerator.cs" />
-    <Compile Include="ResultComparer.cs" />
+    <Compile Include="MemberBindingComparer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
