@@ -10,7 +10,31 @@
         protected static List<Dto> result;
     }
 
-    public class When_mapping_a_single_type : ClassMappings
+    public class When_mapping_an_isolated_type_single_record : ClassMappings
+    {
+        protected static Dto singleresult;
+        protected static Cat cat;
+
+        private Establish context = () =>
+        {
+            xMap.Reset();
+            xMap.Define((Cat o) => new Dto { AnimalName = "Cat", Name = o.Name });
+
+            cat = new Cat { Name = "Aeris" };
+        };
+
+        private Because of = () => singleresult = cat.Map<Cat, Dto>();
+
+        private It should_map_the_record = () => singleresult.ShouldNotBeNull();
+
+        private It should_use_the_constant_value_in_all_mapped_records =
+            () => singleresult.AnimalName.ShouldEqual("Cat");
+
+        private It should_map_the_name_property_for_the_first_record =
+            () => singleresult.Name.ShouldEqual("Aeris");
+    }
+
+    public class When_mapping_an_isolated_type : ClassMappings
     {
         protected static IQueryable<Cat> cats;
 
@@ -34,6 +58,30 @@
 
         private It should_map_the_name_property_for_the_second_record =
              () => result.ElementAt(1).Name.ShouldEqual("MacBeth");
+    }
+
+    public class When_mapping_a_derived_type_single_record : ClassMappings
+    {
+        protected static Dto singleresult;
+        protected static Cat cat;
+
+        private Establish context = () =>
+        {
+            xMap.Reset();
+            xMap.Define((Animal o) => new Dto { AnimalName = "Unknown", Name = o.Name });
+
+            cat = new Cat { Name = "Aeris" };
+        };
+
+        private Because of = () => singleresult = cat.Map<Animal, Dto>();
+
+        private It should_map_the_record = () => singleresult.ShouldNotBeNull();
+
+        private It should_use_the_constant_value_in_all_mapped_records =
+            () => singleresult.AnimalName.ShouldEqual("Unknown");
+
+        private It should_map_the_name_property_for_the_first_record =
+            () => singleresult.Name.ShouldEqual("Aeris");
     }
 
     public class When_mapping_a_derived_type : ClassMappings
@@ -60,6 +108,31 @@
 
         private It should_map_the_name_property_for_the_second_record =
              () => result.ElementAt(1).Name.ShouldEqual("MacBeth");
+    }
+
+    public class When_performing_composite_mapping_single_record : ClassMappings
+    {
+        protected static Dto singleresult;
+        protected static Cat cat;
+
+        private Establish context = () =>
+        {
+            xMap.Reset();
+            xMap.Define((Animal o) => new Dto { Name = o.Name });
+            xMap.Define((Cat o) => new Dto { AnimalName = "Cat" }).DerivedFrom<Animal>();
+
+            cat = new Cat { Name = "Aeris" };
+        };
+
+        private Because of = () => singleresult = cat.Map<Cat, Dto>();
+
+        private It should_map_the_record = () => singleresult.ShouldNotBeNull();
+
+        private It should_use_the_constant_value_in_all_mapped_records =
+            () => singleresult.AnimalName.ShouldEqual("Cat");
+
+        private It should_map_the_name_property_for_the_first_record =
+            () => singleresult.Name.ShouldEqual("Aeris");
     }
 
     public class When_performing_composite_mapping : ClassMappings
@@ -177,7 +250,6 @@
         private It should_map_the_age_property_for_the_third_record =
            () => result.ElementAt(1).Age.ShouldEqual(5);
     }
-
 
     public class When_performing_composite_mapping_with_complex_types : ClassMappings
     {
