@@ -2,7 +2,6 @@ namespace xMap.Generators
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
 
     internal abstract class QueryGenerator
     {
@@ -15,9 +14,7 @@ namespace xMap.Generators
     {
         public override IQueryable<TOut> Generate<T, TOut>(IQueryable<T> input)
         {
-            return
-                input.OfType<TDerived>().Select(
-                    (Expression<Func<TDerived, TOut>>)xMap.Map(typeof(TDerived), typeof(TOut)));
+            return input.OfType<TDerived>().Select(xMap.GetMapExpression<TDerived, TOut>());
         }
 
         public override Type Type()

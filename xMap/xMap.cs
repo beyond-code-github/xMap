@@ -7,7 +7,7 @@ namespace xMap
     using System.Linq;
     using System.Linq.Expressions;
 
-    using global::xMap.Exceptions;
+    using global::xMap.Expressions;
     using global::xMap.Generators;
 
     public static class xMap
@@ -16,13 +16,10 @@ namespace xMap
 
         internal static ConcurrentDictionary<Type, List<QueryGenerator>> Relationships { get; set; }
 
-        internal static ConcurrentDictionary<Type, KeyExpressionGenerator> Keys { get; set; }
-
         static xMap()
         {
             Mappings = new ConcurrentDictionary<Type, List<xMapping>>();
             Relationships = new ConcurrentDictionary<Type, List<QueryGenerator>>();
-            Keys = new ConcurrentDictionary<Type, KeyExpressionGenerator>();
         }
 
         public static void Reset()
@@ -77,21 +74,23 @@ namespace xMap
             return result;
         }
 
-        /// <summary>
-        /// Maps the specified type.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="destinationType">The destination type.</param>
-        /// <returns>LINQ Expression</returns>
-        internal static Expression Map(Type type, Type destinationType)
+        internal static Expression<Func<TDerived, TOut>> GetMapExpression<TDerived, TOut>()
         {
-            var result = Mappings[type].Single(o => o.TargetType == destinationType).Expression;
-            return result;
-        }
+            Type type = typeof(TDerived);
+            Type destinationType = typeof(TOut);
 
-        public static xMapPartial Partial(Expression<Func<DynamicObject, object>> func)
-        {
-            throw new NotImplementedException();
+            var expression = Mappings[type].Single(o => o.TargetType == destinationType).Expression;
+            var relationship = Relationships.Where(o => o.Value.Any(q => q.Type() == type)).Select(o => o.Key).FirstOrDefault();
+
+            if (relationship != null)
+            {
+                var baseExpression = Mappings[relationship].Single(o => o.TargetType == destinationType);
+                // combine this expression with the base
+                var combinedExpression = ExpressionHelper.Merge<TDerived, TOut>(baseExpression.Expression, expression);
+                return combinedExpression;
+            }
+
+            return (Expression<Func<TDerived, TOut>>)expression;
         }
     }
 }

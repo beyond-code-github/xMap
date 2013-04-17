@@ -4,6 +4,8 @@
 
     public class Dog : Animal
     {
-        public List<ClubMemberships> DogClubMemberships { get; set; }
+        public ICollection<ClubMemberships> DogClubMemberships { get; set; }
+
+        public int Age { get; set; }
     }
 }

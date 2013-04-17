@@ -9,6 +9,10 @@
         public string AnimalName { get; set; }
 
         public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public string Origin { get; set; }
     }
 
     public class ComplexDto
@@ -19,6 +23,6 @@
 
         public string Name { get; set; }
 
-        public List<ClubMemberships> Memberships { get; set; }
+        public IEnumerable<ClubMemberships> Memberships { get; set; }
     }
 }

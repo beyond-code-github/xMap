@@ -1,11 +1,9 @@
 ﻿namespace xMap.Tests
 {
-    using System;
-
     public class ClubMemberships
     {
-        public string ClubName { get; set; }
+        public int Id { get; set; }
 
-        public DateTime Joined { get; set; }
+        public string ClubName { get; set; }
     }
 }

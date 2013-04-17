@@ -7,6 +7,6 @@ namespace xMap
     {
         public Type TargetType { get; set; }
 
-        public Expression Expression { get; set; }
+        public LambdaExpression Expression { get; set; }
     }
 }

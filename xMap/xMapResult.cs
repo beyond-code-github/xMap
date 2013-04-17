@@ -30,27 +30,15 @@ namespace xMap
             // find expression map targeting TBase
             var baseMap = xMap.Mappings[typeof(TBase)].Single(o => o.TargetType == typeof(TDestination));
             var baseExpression = (Expression<Func<TBase, TDestination>>)baseMap.Expression;
+            var thisExpression = (Expression<Func<TSource, TDestination>>)this.map.Expression;
 
-            var thisMap = this.map;
-            var thisExpression = (Expression<Func<TSource, TDestination>>)thisMap.Expression;
-
+            // Retrofit the base expression with any additional mappings that aren't present
             var modifiedBaseExpression = ExpressionHelper.Retrofit(baseExpression, thisExpression);
+
             xMap.Mappings[typeof(TBase)].Remove(baseMap);
             xMap.Mappings[typeof(TBase)].Add(new xMapping { TargetType = typeof(TDestination), Expression = modifiedBaseExpression });
 
-            // combine this expression with the one just added and map to the list for TSource
-            var combinedExpression = ExpressionHelper.Merge(baseExpression, thisExpression);
-
-            // remove the old map and add the new one
-            xMap.Mappings[typeof(TSource)].Remove(thisMap);
-            xMap.Mappings[typeof(TSource)].Add(new xMapping { TargetType = typeof(TDestination), Expression = combinedExpression });
-
             return this;
-        }
-
-        public void WithPartial(xMapPartial setName)
-        {
-            throw new NotImplementedException();
         }
     }
 }

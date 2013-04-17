@@ -8,7 +8,7 @@ namespace xMap.Expressions
         /// <summary>
         /// Merges the specified expressions. Assignments from both expressions will be used but the parameters will be adjusted to use only those from expression2
         /// </summary>
-        public static Expression<Func<TDerived, TOut>> Merge<TBase, TDerived, TOut>(Expression<Func<TBase, TOut>> expression1, Expression<Func<TDerived, TOut>> expression2)
+        public static Expression<Func<TDerived, TOut>> Merge<TDerived, TOut>(LambdaExpression expression1, LambdaExpression expression2)
         {
             var composer = new ExpressionComposer<TOut>();
 

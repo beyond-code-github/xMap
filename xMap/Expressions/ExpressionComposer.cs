@@ -22,6 +22,9 @@ namespace xMap.Expressions
 
         public Expression<Func<T, TOut>> BuildComposite<T>()
         {
+            // Need to sort the bindings so that they are in the same order
+            this.bindings.Sort(new MemberBindingComparer());
+
             return Expression.Lambda<Func<T, TOut>>(
                 Expression.MemberInit(Expression.New(typeof(TOut)), this.bindings), this.parameters.Values);
         }
