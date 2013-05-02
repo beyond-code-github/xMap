@@ -10,5 +10,4 @@
             return System.String.Compare(x.Member.Name, y.Member.Name, System.StringComparison.Ordinal);
         }
     }
-
 }

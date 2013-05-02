@@ -55,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassMappings.cs" />
+    <Compile Include="ConditionalMappings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetupExceptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

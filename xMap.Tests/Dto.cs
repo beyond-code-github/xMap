@@ -13,6 +13,8 @@
         public int Age { get; set; }
 
         public string Origin { get; set; }
+
+        public string Owner { get; set; }
     }
 
     public class ComplexDto

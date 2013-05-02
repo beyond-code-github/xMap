@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ConditionAlreadySpecifiedException.cs" />
+    <Compile Include="Exceptions\NoMappingsFoundException.cs" />
     <Compile Include="Expressions\AssignmentVisitor.cs" />
     <Compile Include="Expressions\ExpressionComposer.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
-    <Compile Include="xMapPartial.cs" />
+    <Compile Include="xMapOptions.cs" />
     <Compile Include="xMapping.cs" />
     <Compile Include="xMap.cs" />
     <Compile Include="xMapResult.cs" />
@@ -52,9 +54,7 @@
     <Compile Include="Generators\QueryGenerator.cs" />
     <Compile Include="MemberBindingComparer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

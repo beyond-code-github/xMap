@@ -17,5 +17,15 @@ namespace xMap
             var generator = new QueryGenerator<T>();
             return generator.Generate<T, TOut>(new List<T> { input }.AsQueryable()).FirstOrDefault();
         }
+
+        public static xMapOptions<TSource, TConditionTarget> MapFor<TSource, TConditionTarget>(this TSource input, TConditionTarget conditionTarget) where TSource : class
+        {
+            return new xMapOptions<TSource, TConditionTarget> { Source = input, ConditionTarget = conditionTarget };
+        }
+
+        public static xMapQueryOptions<TSource, TConditionTarget> MapFor<TSource, TConditionTarget>(this IQueryable<TSource> input, TConditionTarget conditionTarget) where TSource : class
+        {
+            return new xMapQueryOptions<TSource, TConditionTarget> { Source = input, ConditionTarget = conditionTarget };
+        }
     }
 }

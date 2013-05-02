@@ -13,6 +13,7 @@
     public class When_mapping_an_isolated_type_single_record : ClassMappings
     {
         protected static Dto singleresult;
+
         protected static Cat cat;
 
         private Establish context = () =>
@@ -63,6 +64,7 @@
     public class When_mapping_a_derived_type_single_record : ClassMappings
     {
         protected static Dto singleresult;
+
         protected static Cat cat;
 
         private Establish context = () =>
@@ -113,6 +115,7 @@
     public class When_performing_composite_mapping_single_record : ClassMappings
     {
         protected static Dto singleresult;
+
         protected static Cat cat;
 
         private Establish context = () =>
