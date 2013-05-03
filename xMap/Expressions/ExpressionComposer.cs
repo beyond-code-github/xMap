@@ -25,8 +25,9 @@ namespace xMap.Expressions
             // Need to sort the bindings so that they are in the same order
             this.bindings.Sort(new MemberBindingComparer());
 
+            // We must ensure that we only take the first parameter as there may be others unrelated to the composite expression
             return Expression.Lambda<Func<T, TOut>>(
-                Expression.MemberInit(Expression.New(typeof(TOut)), this.bindings), this.parameters.Values);
+                Expression.MemberInit(Expression.New(typeof(TOut)), this.bindings), this.parameters.Values.FirstOrDefault());
         }
 
         protected override Expression VisitParameter(ParameterExpression node)

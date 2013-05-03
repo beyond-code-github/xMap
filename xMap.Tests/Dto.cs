@@ -25,6 +25,8 @@
 
         public string Name { get; set; }
 
+        public ClubMemberships HomeClub { get; set; }
+
         public IEnumerable<ClubMemberships> Memberships { get; set; }
     }
 }

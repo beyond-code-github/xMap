@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     using Machine.Specifications;
@@ -894,6 +895,61 @@
         private Because of = () => ex = Catch.Exception(() => result = animals.MapFor(user).To<Dto>().ToList());
 
         private It should_throw_an_exception = () => ex.ShouldBeOfType<NoMappingsFoundException>();
+    }
+
+    #endregion
+
+    #region Edge cases
+
+    public class When_a_conditional_mapping_with_nested_projection_is_told_to_include_defaults : ConditionalMappings
+    {
+        protected static ComplexDto singleresult;
+
+        protected static Dog dog;
+
+        protected static User user;
+
+        private Establish context = () =>
+            {
+                xMap.Reset();
+                xMap.Define((Dog o) => new ComplexDto { AnimalName = "Dog" });
+                xMap.Define(
+                    (Dog o) =>
+                    new ComplexDto
+                        {
+                            Name = o.Name,
+                            HomeClub = o.DogClubMemberships.FirstOrDefault(d => d.ClubName == "Home")
+                        })
+                    .For<User>(o => o.IsAdmin)
+                    .WithDefaults();
+
+                user = new User { IsAdmin = true };
+                dog = new Dog
+                          {
+                              Name = "Pugface",
+                              Owner = "Pete & Kathryn",
+                              DogClubMemberships =
+                                  new Collection<ClubMemberships>(
+                                  new List<ClubMemberships>
+                                      {
+                                          new ClubMemberships { ClubName = "Away" },
+                                          new ClubMemberships { ClubName = "Home" },
+                                      })
+                          };
+            };
+
+        private Because of = () => singleresult = dog.MapFor(user).To<ComplexDto>();
+
+        private It should_map_the_record = () => singleresult.ShouldNotBeNull();
+
+        private It should_use_the_constant_value_in_all_mapped_records =
+            () => singleresult.AnimalName.ShouldEqual("Dog");
+
+        private It should_map_the_name_property_for_the_first_record =
+            () => singleresult.Name.ShouldEqual("Pugface");
+
+        private It should_project_the_home_club_for_the_first_record =
+            () => singleresult.HomeClub.ClubName.ShouldEqual("Home");
     }
 
     #endregion
